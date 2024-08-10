@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useFormik } from "formik";
 import InputCustom from "../components/Input/InputCustom";
 import * as yup from "yup";
@@ -6,8 +6,11 @@ import TableNhanVien from "../components/table/TableNhanVien";
 import { useDispatch } from "react-redux";
 import { themNhanVien, xoaNhanVien } from "../redux/nhanVienSlice";
 import { getValueLocalStorage, setValueLocalStorage } from "../util/util";
+import { NotificationContext } from "./../App";
 
 const Home = () => {
+  const { handleNotification } = useContext(NotificationContext);
+
   const [arrNhanVien, setArrNhanVien] = useState([]);
 
   const [nhanVien, setNhanVien] = useState();
@@ -35,6 +38,7 @@ const Home = () => {
       setArrNhanVien(newArrNhanVien);
       setValueLocalStorage("arrNhanVien", newArrNhanVien);
       dispatch(themNhanVien(values));
+      handleNotification("Tài khoản tạo thành công", "success");
       resetForm();
     },
     validationSchema: yup.object({
@@ -71,6 +75,7 @@ const Home = () => {
       dispatch(xoaNhanVien(index));
       setArrNhanVien(newArrNhanVien);
       setValueLocalStorage("arrNhanVien", newArrNhanVien);
+      handleNotification("Tài khoản xóa thành công", "success");
     }
   };
 
@@ -84,6 +89,7 @@ const Home = () => {
 
       setArrNhanVien(updateNhanVien);
       setValueLocalStorage("arrNhanVien", updateNhanVien);
+      handleNotification("Tài khoản sửa thành công", "success");
     }
   };
 
